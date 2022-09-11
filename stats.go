@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-type tStats struct {
+type TStats struct {
 	Ettw       string // Expected time to win
 	Netspace   string
 	FarmStatus string
@@ -16,8 +16,8 @@ type tStats struct {
 	Network    string
 }
 
-func RefreshStats() (tStats, error) {
-	var stats tStats = tStats{}
+func RefreshStats() (TStats, error) {
+	var stats TStats = TStats{}
 	var output []string
 
 	// Run "chia farm summary"

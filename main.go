@@ -15,6 +15,6 @@ func main() {
 	log.Println("Estimated Netspace:", stats.Netspace)
 	log.Println("Farm Status:", stats.FarmStatus)
 	log.Println("Plot Count:", stats.PlotCount)
-	log.Println("Diffculty:", stats.Difficulty)
+	log.Println("Difficulty:", stats.Difficulty)
 	log.Println("Network:", stats.Network)
 }
