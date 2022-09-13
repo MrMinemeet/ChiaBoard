@@ -5,7 +5,7 @@ CLI tool that displays stats similarly to the GUI version of chia
 ## Shown information
 * Expected Time to Win
 * Estimated NetSpace
-* Farm Status (*Synced, Syncing, Syncing, Not Synced*)
+* Farm Status (*Farming, Synced, Syncing, Syncing, Not Synced*)
 * Plot Count
 * Difficulty
 * Network (eg. `mainnet`)
