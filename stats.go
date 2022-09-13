@@ -38,9 +38,9 @@ func RefreshStats() (TStats, error) {
 
 	// Get information from cmd output
 	for _, line := range output {
-		if strings.Contains(line, "Plot count:") && stats.PlotCount == 0 {
+		if strings.Contains(line, "Plot count for all harvesters:") && stats.PlotCount == 0 {
 			// Plot Count
-			plotCount, err := strconv.Atoi(strings.Trim(strings.TrimPrefix(line, "Plot count:"), " "))
+			plotCount, err := strconv.Atoi(strings.Trim(strings.TrimPrefix(line, "Plot count for all harvesters:"), " "))
 			if err != nil {
 				stats.PlotCount = -1
 			} else {
