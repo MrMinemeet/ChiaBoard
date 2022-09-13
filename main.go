@@ -1,20 +1,18 @@
 package main
 
-import "log"
+import "time"
 
 // "github.com/leandroveronezi/go-terminal"
 
 func main() {
 
-	stats, err := RefreshStats()
-	if err != nil {
-		return
-	}
+	for true {
+		stats, err := RefreshStats()
+		if err != nil {
+			return
+		}
 
-	log.Println("Expected time to win:", stats.Ettw)
-	log.Println("Estimated Netspace:", stats.Netspace)
-	log.Println("Farm Status:", stats.FarmStatus)
-	log.Println("Plot Count:", stats.PlotCount)
-	log.Println("Difficulty:", stats.Difficulty)
-	log.Println("Network:", stats.Network)
+		go PrintStats(stats)
+		time.Sleep(2 * time.Second)
+	}
 }
