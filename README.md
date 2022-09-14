@@ -9,6 +9,7 @@ CLI tool that displays stats similarly to the GUI version of chia
 * Plot Count
 * Difficulty
 * Network (eg. `mainnet`)
+* Total Iterations since Blockchain start
 
 
 ## License
