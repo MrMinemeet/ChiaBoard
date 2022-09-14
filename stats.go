@@ -31,7 +31,7 @@ func RefreshStats() (TStats, error) {
 	// Run "chia show -s"
 	data, err = exec.Command(TmpChiaPath, "show", "-s").Output()
 	if err != nil {
-		log.Fatal("Failed to get farm summary")
+		log.Fatal("Failed to get current state of blockchain")
 		return stats, err
 	}
 	output = append(output, strings.Split(string(data), "\n")...)
