@@ -27,26 +27,14 @@ type TStats struct {
 
 func RefreshStats() (TStats, error) {
 	var stats TStats = TStats{}
-	var output []string
 
-	// Run "chia farm summary"
-	data, err := exec.Command(TmpChiaPath, "farm", "summary").Output()
+	rawData, err := fetchData()
 	if err != nil {
-		log.Fatal("Failed to get farm summary")
 		return stats, err
 	}
-	output = strings.Split(string(data), "\n")
-
-	// Run "chia show -s"
-	data, err = exec.Command(TmpChiaPath, "show", "-s").Output()
-	if err != nil {
-		log.Fatal("Failed to get current state of blockchain")
-		return stats, err
-	}
-	output = append(output, strings.Split(string(data), "\n")...)
 
 	// Get information from cmd output
-	for _, line := range output {
+	for _, line := range rawData {
 		if strings.Contains(line, PlotCount) && stats.PlotCount == 0 {
 			// Plot Count
 			plotCount, err := strconv.Atoi(strings.Trim(strings.TrimPrefix(line, PlotCount), " "))
@@ -88,4 +76,26 @@ func RefreshStats() (TStats, error) {
 	}
 
 	return stats, nil
+}
+
+func fetchData() ([]string, error) {
+	var rawData []string
+
+	// Run "chia farm summary"
+	data, err := exec.Command(TmpChiaPath, "farm", "summary").Output()
+	if err != nil {
+		log.Fatal("Failed to get farm summary")
+		return nil, err
+	}
+	rawData = strings.Split(string(data), "\n")
+
+	// Run "chia show -s"
+	data, err = exec.Command(TmpChiaPath, "show", "-s").Output()
+	if err != nil {
+		log.Fatal("Failed to get current state of blockchain")
+		return nil, err
+	}
+	rawData = append(rawData, strings.Split(string(data), "\n")...)
+
+	return Unique(rawData), nil // Remove duplicated lines and return output data
 }
