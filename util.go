@@ -14,5 +14,6 @@ func PrintStats(stats TStats) {
 	fmt.Println("Total Plot Count:", stats.PlotCount)
 	fmt.Println("Difficulty:", stats.Difficulty)
 	fmt.Println("Network:", stats.Network)
+	fmt.Println("Iterations:", stats.TotalIterations)
 	fmt.Println("=======================================")
 }
