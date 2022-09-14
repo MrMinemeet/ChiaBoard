@@ -13,14 +13,16 @@ const ExpectedTimeToWin = "Expected time to win:"
 const EstimatedNetspace = "Estimated network space:"
 const CurrentDifficulty = "Current difficulty:"
 const Network = "Network:"
+const TotalIterations = "Total iterations since the start of the blockchain:"
 
 type TStats struct {
-	Ettw       string // Expected time to win
-	Netspace   string
-	FarmStatus string
-	PlotCount  int // -1 = Unknown
-	Difficulty int // -1 = Unknown or able to parse
-	Network    string
+	Ettw            string // Expected time to win
+	Netspace        string
+	FarmStatus      string
+	PlotCount       int // -1 = Unknown
+	Difficulty      int // -1 = Unknown or able to parse
+	Network         string
+	TotalIterations int // Iterations since blockchain start
 }
 
 func RefreshStats() (TStats, error) {
@@ -74,6 +76,14 @@ func RefreshStats() (TStats, error) {
 			// Network
 			tmp := strings.Split(line, " ")
 			stats.Network = tmp[1]
+		} else if strings.Contains(line, TotalIterations) && stats.TotalIterations == 0 {
+			// Total Iterations since blockchain start
+			iterations, err := strconv.Atoi(strings.Trim(strings.TrimPrefix(line, TotalIterations), " "))
+			if err != nil {
+				stats.TotalIterations = -1
+			} else {
+				stats.TotalIterations = iterations
+			}
 		}
 	}
 
