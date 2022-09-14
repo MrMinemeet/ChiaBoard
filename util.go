@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -16,4 +17,19 @@ func PrintStats(stats TStats) {
 	fmt.Println("Network:", stats.Network)
 	fmt.Println("Iterations:", stats.TotalIterations)
 	fmt.Println("=======================================")
+}
+
+func Unique(data []string) []string {
+	var contains = make(map[string]bool)
+	var result []string
+
+	for _, entry := range data {
+		if _, contained := contains[entry]; !contained && !strings.EqualFold(entry, "") {
+			// Check if string was not added already and string is not empty
+			contains[entry] = true
+			result = append(result, entry)
+		}
+	}
+
+	return result
 }
