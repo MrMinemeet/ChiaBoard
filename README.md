@@ -10,6 +10,7 @@ CLI tool that displays stats similarly to the GUI version of chia
 * Difficulty
 * Network (eg. `mainnet`)
 * Total Iterations since Blockchain start
+* Local and Global height
 
 ## How to Build
 Make sure you have [Go](https://go.dev/) installed.
