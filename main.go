@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-var BuildVersion string // Set at compile time. Read from ./VERSION
+var BuildVersion string = "NO VERSION SET. NOT BUILT PROPERLY?" // Set at compile time. Read from ./VERSION
 
 // "github.com/leandroveronezi/go-terminal"
 
