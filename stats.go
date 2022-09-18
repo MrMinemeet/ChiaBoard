@@ -49,13 +49,13 @@ func RefreshStats() (TStats, error) {
 			}
 		} else if strings.Contains(line, FarmStatus) && strings.EqualFold(stats.FarmStatus, "") {
 			// Farming Status
-			stats.FarmStatus = strings.TrimPrefix(line, FarmStatus)
+			stats.FarmStatus = strings.Trim(strings.TrimPrefix(line, FarmStatus), " ")
 		} else if strings.Contains(line, ExpectedTimeToWin) && strings.EqualFold(stats.Ettw, "") {
 			// Expected time to win
-			stats.Ettw = strings.TrimPrefix(line, ExpectedTimeToWin)
+			stats.Ettw = strings.Trim(strings.TrimPrefix(line, ExpectedTimeToWin), " ")
 		} else if strings.Contains(line, EstimatedNetspace) && strings.EqualFold(stats.Netspace, "") {
 			// Netspace
-			stats.Netspace = strings.TrimPrefix(line, EstimatedNetspace)
+			stats.Netspace = strings.Trim(strings.TrimPrefix(line, EstimatedNetspace), " ")
 		} else if strings.Contains(line, CurrentDifficulty) && stats.Difficulty == 0 {
 			// Difficulty
 			difficulty, err := strconv.Atoi(strings.Trim(strings.TrimPrefix(line, CurrentDifficulty), " "))
