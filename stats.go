@@ -14,6 +14,8 @@ const EstimatedNetspace = "Estimated network space:"
 const CurrentDifficulty = "Current difficulty:"
 const Network = "Network:"
 const TotalIterations = "Total iterations since the start of the blockchain:"
+const CurrentBlockChainStatus = "Current Blockchain Status:" // If not synced local and global height is under this
+const Height = "Height:"                                     // If synced
 
 type TStats struct {
 	Ettw            string // Expected time to win
@@ -23,6 +25,8 @@ type TStats struct {
 	Difficulty      int // -1 = Unknown or able to parse
 	Network         string
 	TotalIterations int // Iterations since blockchain start
+	LocalHeight     int
+	GlobalHeight    int
 }
 
 func RefreshStats() (TStats, error) {
@@ -72,6 +76,32 @@ func RefreshStats() (TStats, error) {
 			} else {
 				stats.TotalIterations = iterations
 			}
+		} else if strings.Contains(line, CurrentBlockChainStatus) && stats.LocalHeight == 0 && stats.GlobalHeight == 0 {
+			var tmp = strings.Split(strings.TrimPrefix(line, CurrentBlockChainStatus), " ")
+			for _, entry := range tmp {
+				if strings.Contains(entry, "/") {
+					tmp = strings.Split(tmp[2], "/")
+				}
+			}
+
+			localHeight, err := strconv.Atoi(tmp[0])
+			if err != nil {
+				stats.LocalHeight = -1
+			} else {
+				stats.LocalHeight = localHeight
+			}
+			globalHeight, err := strconv.Atoi(tmp[1])
+			if err != nil {
+				stats.GlobalHeight = -1
+			} else {
+				stats.GlobalHeight = globalHeight
+			}
+		} else if strings.Contains(line, Height) && stats.LocalHeight == -1 && stats.GlobalHeight == -1 {
+			tmp, err := strconv.Atoi(strings.Trim(strings.Split(line, Height)[1], " "))
+			if err == nil {
+				stats.LocalHeight = tmp
+				stats.GlobalHeight = tmp
+			} // Ignore if failed. Just keep -1 as Heights
 		}
 	}
 
