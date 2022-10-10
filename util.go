@@ -16,7 +16,8 @@ func PrintStats(stats TStats) {
 	fmt.Println("Difficulty:", stats.Difficulty)
 	fmt.Println("Network:", stats.Network)
 	fmt.Println("Iterations:", stats.TotalIterations)
-	fmt.Println("Height: ", stats.LocalHeight, "/", stats.GlobalHeight)
+	fmt.Println("Height:", stats.LocalHeight, "/", stats.GlobalHeight)
+	fmt.Println("Total Balance:", stats.TotalBalance, "XCH")
 	fmt.Println("=======================================")
 }
 
