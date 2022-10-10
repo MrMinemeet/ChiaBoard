@@ -112,7 +112,7 @@ func fetchData() ([]string, error) {
 	var rawData []string
 
 	// Run "chia farm summary"
-	data, err := exec.Command(TmpChiaPath, "farm", "summary").Output()
+	data, err := exec.Command(config.ChiaPath, "farm", "summary").Output()
 	if err != nil {
 		log.Fatal("Failed to get farm summary")
 		return nil, err

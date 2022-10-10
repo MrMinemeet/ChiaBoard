@@ -9,7 +9,12 @@ var BuildVersion string = "NO VERSION SET. NOT BUILT PROPERLY?" // Set at compil
 
 // "github.com/leandroveronezi/go-terminal"
 
+var config TConfig
+
 func main() {
+	// Load Settings
+	config = LoadSettings()
+
 	fmt.Println("Build Version:", BuildVersion)
 	time.Sleep(500 * time.Millisecond)
 
