@@ -21,5 +21,3 @@ func LoadSettings() TConfig {
 
 	return config
 }
-
-const TmpChiaPath = "/usr/bin/chia"
