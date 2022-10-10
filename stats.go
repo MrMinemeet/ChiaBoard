@@ -16,6 +16,7 @@ const Network = "Network:"
 const TotalIterations = "Total iterations since the start of the blockchain:"
 const CurrentBlockChainStatus = "Current Blockchain Status:" // If not synced local and global height is under this
 const Height = "Height:"                                     // If synced
+const TotalBalance = "-Total Balance:"
 
 type TStats struct {
 	Ettw            string // Expected time to win
@@ -27,6 +28,7 @@ type TStats struct {
 	TotalIterations int // Iterations since blockchain start
 	LocalHeight     int
 	GlobalHeight    int
+	TotalBalance    float64
 }
 
 func RefreshStats() (TStats, error) {
@@ -102,6 +104,14 @@ func RefreshStats() (TStats, error) {
 				stats.LocalHeight = tmp
 				stats.GlobalHeight = tmp
 			} // Ignore if failed. Just keep -1 as Heights
+		} else if strings.Contains(line, TotalBalance) && stats.TotalBalance == 0 {
+			tmp, err := strconv.ParseFloat(Unique(strings.Split(line, " "))[2], 64)
+			if err != nil {
+				log.Println("Failed to get total wallet balance")
+				stats.TotalBalance = -1
+			} else {
+				stats.TotalBalance = tmp
+			}
 		}
 	}
 
@@ -123,6 +133,14 @@ func fetchData() ([]string, error) {
 	data, err = exec.Command(config.ChiaPath, "show", "-s").Output()
 	if err != nil {
 		log.Fatal("Failed to get current state of blockchain")
+		return nil, err
+	}
+	rawData = append(rawData, strings.Split(string(data), "\n")...)
+
+	// Run "chia wallet show"
+	data, err = exec.Command(config.ChiaPath, "wallet", "show").Output()
+	if err != nil {
+		log.Fatal("Failed to get wallet info")
 		return nil, err
 	}
 	rawData = append(rawData, strings.Split(string(data), "\n")...)
