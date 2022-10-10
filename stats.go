@@ -120,7 +120,7 @@ func fetchData() ([]string, error) {
 	rawData = strings.Split(string(data), "\n")
 
 	// Run "chia show -s"
-	data, err = exec.Command(TmpChiaPath, "show", "-s").Output()
+	data, err = exec.Command(config.ChiaPath, "show", "-s").Output()
 	if err != nil {
 		log.Fatal("Failed to get current state of blockchain")
 		return nil, err
