@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"log"
 	"strings"
 	"time"
 )
@@ -34,4 +36,14 @@ func Unique(data []string) []string {
 	}
 
 	return result
+}
+
+func ReadTextFile(filePath string) (string, error) {
+	inputFile, err := ioutil.ReadFile(filePath) // ioutil is deprecated… use something else
+	if err != nil {
+		log.Fatalln("Cannot open log file.", err)
+		return "", err
+	}
+
+	return string(inputFile), nil
 }

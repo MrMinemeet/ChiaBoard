@@ -7,7 +7,8 @@ import (
 )
 
 type TConfig struct {
-	ChiaPath string
+	ChiaPath    string
+	ChiaLogPath string
 }
 
 func LoadSettings() TConfig {
