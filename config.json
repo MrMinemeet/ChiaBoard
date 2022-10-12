@@ -1,4 +1,0 @@
-{
-  "ChiaPath":  "/usr/bin/chia",
-  "ChiaLogPath": "~/.chia/mainnet/log/debug.log"
-}
