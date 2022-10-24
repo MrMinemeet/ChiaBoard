@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 	"time"
 )
@@ -47,4 +48,24 @@ func ReadTextFile(filePath string) ([]string, error) {
 	}
 
 	return strings.Split(string(data), "\n"), nil
+}
+
+
+func GetChiaVersion() (TVersion, error) {
+	// Execute "chia version"
+	data, err := exec.Command(config.ChiaPath, "version").Output()
+	if err != nil {
+		log.Fatal("Failed to execute \"chia version\"")
+		return TVersion{}, err
+	}
+
+	version, err := GetVersion(string(data))
+	if err != nil {
+		log.Fatal("Failed to parse chia version")
+		return TVersion{}, err
+	}
+
+	PrintVersion(version)
+
+	return version, nil
 }
