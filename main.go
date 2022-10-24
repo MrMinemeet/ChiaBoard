@@ -10,10 +10,10 @@ var BuildVersion string = "NO VERSION SET. NOT BUILT PROPERLY?" // Set at compil
 // "github.com/leandroveronezi/go-terminal"
 
 var config TConfig
+var chiaVersion TVersion
 
 func main() {
-	// Load Settings
-	config = LoadSettings()
+	Init()
 
 	fmt.Println("Build Version:", BuildVersion)
 	time.Sleep(500 * time.Millisecond)
@@ -27,4 +27,10 @@ func main() {
 		go PrintStats(stats)
 		time.Sleep(2 * time.Second)
 	}
+}
+
+func Init() {
+	// Load Settings
+	config = LoadSettings()
+	chiaVersion, _ = GetChiaVersion()
 }
