@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"strings"
 	"time"
@@ -20,6 +21,7 @@ func PrintStats(stats TStats) {
 	fmt.Println("Iterations:", stats.TotalIterations)
 	fmt.Println("Height:", stats.LocalHeight, "/", stats.GlobalHeight)
 	fmt.Println("Total Balance:", stats.TotalBalance, "XCH")
+	fmt.Println("Latest Error:", stats.LatestError)
 	fmt.Println("=======================================")
 }
 
@@ -37,6 +39,17 @@ func Unique(data []string) []string {
 
 	return result
 }
+
+func ReadTextFile(filePath string) ([]string, error) {
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		log.Fatalln("Cannot open log file.", err)
+		return nil, err
+	}
+
+	return strings.Split(string(data), "\n"), nil
+}
+
 
 func GetChiaVersion() (TVersion, error) {
 	// Execute "chia version"

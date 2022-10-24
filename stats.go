@@ -29,16 +29,24 @@ type TStats struct {
 	LocalHeight     int
 	GlobalHeight    int
 	TotalBalance    float64
+	LatestError     string
 }
 
 func RefreshStats() (TStats, error) {
 	var stats TStats = TStats{}
 
-	rawData, err := fetchData()
+	rawData, err := fetchDataFromCommands()
 	if err != nil {
 		return stats, err
 	}
 
+	parseCommandOutput(rawData, &stats)
+	parseLogOutput(&stats)
+
+	return stats, nil
+}
+
+func parseCommandOutput(rawData []string, stats *TStats) {
 	// Get information from cmd output
 	for _, line := range rawData {
 		if strings.Contains(line, PlotCount) && stats.PlotCount == 0 {
@@ -114,11 +122,9 @@ func RefreshStats() (TStats, error) {
 			}
 		}
 	}
-
-	return stats, nil
 }
 
-func fetchData() ([]string, error) {
+func fetchDataFromCommands() ([]string, error) {
 	var rawData []string
 
 	// Run "chia farm summary"
@@ -146,4 +152,19 @@ func fetchData() ([]string, error) {
 	rawData = append(rawData, strings.Split(string(data), "\n")...)
 
 	return Unique(rawData), nil // Remove duplicated lines and return output data
+}
+
+func parseLogOutput(stats *TStats) {
+	fileContent, err := ReadTextFile(config.ChiaLogPath)
+	if err != nil {
+		log.Fatal("Failed to read log file")
+		return
+	}
+
+	for i := 0; i < len(fileContent); i++ {
+		if strings.Contains(fileContent[i], "ERROR") {
+			splitted := strings.Split(fileContent[i], "ERROR")
+			stats.LatestError = strings.Trim(splitted[1], " ")
+		}
+	}
 }
