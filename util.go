@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os/exec"
 	"strings"
 	"time"
 )
@@ -34,4 +36,23 @@ func Unique(data []string) []string {
 	}
 
 	return result
+}
+
+func GetChiaVersion() (TVersion, error) {
+	// Execute "chia version"
+	data, err := exec.Command(config.ChiaPath, "version").Output()
+	if err != nil {
+		log.Fatal("Failed to execute \"chia version\"")
+		return TVersion{}, err
+	}
+
+	version, err := GetVersion(string(data))
+	if err != nil {
+		log.Fatal("Failed to parse chia version")
+		return TVersion{}, err
+	}
+
+	PrintVersion(version)
+
+	return version, nil
 }
