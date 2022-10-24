@@ -34,11 +34,17 @@ type TStats struct {
 func RefreshStats() (TStats, error) {
 	var stats TStats = TStats{}
 
-	rawData, err := fetchData()
+	rawData, err := fetchDataFromCommands()
 	if err != nil {
 		return stats, err
 	}
 
+	parseCommandOutput(rawData, &stats)
+
+	return stats, nil
+}
+
+func parseCommandOutput(rawData []string, stats *TStats) {
 	// Get information from cmd output
 	for _, line := range rawData {
 		if strings.Contains(line, PlotCount) && stats.PlotCount == 0 {
@@ -114,11 +120,9 @@ func RefreshStats() (TStats, error) {
 			}
 		}
 	}
-
-	return stats, nil
 }
 
-func fetchData() ([]string, error) {
+func fetchDataFromCommands() ([]string, error) {
 	var rawData []string
 
 	// Run "chia farm summary"
