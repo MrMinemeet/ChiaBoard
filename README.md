@@ -15,7 +15,7 @@ CLI tool that displays stats similarly to the GUI version of chia
 
 ## How to Build
 Make sure you have [Go](https://go.dev/) installed.
-For development, I currently use *1.8.2*.
+For development, I currently use *1.19.2*.
 
 To build the binary, simply execute the `build.sh` file, and you should get a `ChiaBoard` binary in the same directory.
 
