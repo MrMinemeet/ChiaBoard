@@ -29,6 +29,7 @@ type TStats struct {
 	LocalHeight     int
 	GlobalHeight    int
 	TotalBalance    float64
+	LatestError     string
 }
 
 func RefreshStats() (TStats, error) {
@@ -40,6 +41,7 @@ func RefreshStats() (TStats, error) {
 	}
 
 	parseCommandOutput(rawData, &stats)
+	parseLogOutput(&stats)
 
 	return stats, nil
 }
@@ -150,4 +152,19 @@ func fetchDataFromCommands() ([]string, error) {
 	rawData = append(rawData, strings.Split(string(data), "\n")...)
 
 	return Unique(rawData), nil // Remove duplicated lines and return output data
+}
+
+func parseLogOutput(stats *TStats) {
+	fileContent, err := ReadTextFile(config.ChiaLogPath)
+	if err != nil {
+		log.Fatal("Failed to read log file")
+		return
+	}
+
+	for i := 0; i < len(fileContent); i++ {
+		if strings.Contains(fileContent[i], "ERROR") {
+			splitted := strings.Split(fileContent[i], "ERROR")
+			stats.LatestError = strings.Trim(splitted[1], " ")
+		}
+	}
 }
