@@ -9,6 +9,7 @@ import (
 
 const FarmStatus = "Farming status:"
 const PlotCount = "Plot count for all harvesters:"
+const TotalPlotSize = "Total size of plots:"
 const ExpectedTimeToWin = "Expected time to win:"
 const EstimatedNetspace = "Estimated network space:"
 const CurrentDifficulty = "Current difficulty:"
@@ -23,6 +24,7 @@ type TStats struct {
 	Netspace        string
 	FarmStatus      string
 	PlotCount       int // -1 = Unknown
+	TotalPlotSize   string
 	Difficulty      int // -1 = Unknown or able to parse
 	Network         string
 	TotalIterations int // Iterations since blockchain start
@@ -57,6 +59,9 @@ func parseCommandOutput(rawData []string, stats *TStats) {
 			} else {
 				stats.PlotCount = plotCount
 			}
+		} else if strings.Contains(line, TotalPlotSize) && strings.EqualFold(stats.TotalPlotSize, "") {
+			// Total size of plots
+			stats.TotalPlotSize = strings.Trim(strings.TrimPrefix(line, TotalPlotSize), " ")
 		} else if strings.Contains(line, FarmStatus) && strings.EqualFold(stats.FarmStatus, "") {
 			// Farming Status
 			stats.FarmStatus = strings.Trim(strings.TrimPrefix(line, FarmStatus), " ")
