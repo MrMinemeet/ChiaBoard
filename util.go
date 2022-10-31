@@ -15,7 +15,7 @@ func PrintStats(stats TStats) {
 	fmt.Println("Expected time to win:", stats.Ettw)
 	fmt.Println("Estimated Netspace:", stats.Netspace)
 	fmt.Println("Farm Status:", stats.FarmStatus)
-	fmt.Println("Total Plot Count:", stats.PlotCount)
+	fmt.Println("Total Plot Count:", stats.PlotCount, "(", stats.TotalPlotSize, ")")
 	fmt.Println("Difficulty:", stats.Difficulty)
 	fmt.Println("Network:", stats.Network)
 	fmt.Println("Iterations:", stats.TotalIterations)
@@ -49,7 +49,6 @@ func ReadTextFile(filePath string) ([]string, error) {
 
 	return strings.Split(string(data), "\n"), nil
 }
-
 
 func GetChiaVersion() (TVersion, error) {
 	// Execute "chia version"
