@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"strconv"
 	"strings"
@@ -15,7 +16,7 @@ type TVersion struct {
 
 func PrintVersion(v TVersion) {
 	// Print version split with dot but without spaces
-	log.Printf("Chia Version: %d.%d.%s", v.Major, v.Minor, v.Patch)
+	fmt.Printf("Chia Version: %d.%d.%s", v.Major, v.Minor, v.Patch)
 }
 
 func GetVersion(v string) (TVersion, error) {
