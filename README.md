@@ -6,7 +6,7 @@ CLI tool that displays stats similarly to the GUI version of chia
 * Expected Time to Win
 * Estimated NetSpace
 * Farm Status (*Farming, Synced, Syncing, Syncing, Not Synced*)
-* Plot Count
+* Plot Count incl. total size of plots
 * Difficulty
 * Network (eg. `mainnet`)
 * Total Iterations since Blockchain start
